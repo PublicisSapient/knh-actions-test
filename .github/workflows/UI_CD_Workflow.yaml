@@ -27,7 +27,7 @@ env:
 
 jobs:
   argocd_setup:
-    runs-on: github-actions-self-hosted-runner
+    runs-on: [self-hosted, github-actions-self-hosted-runner]
     steps:
       - name: Install ArgoCD CLI
         run: |
