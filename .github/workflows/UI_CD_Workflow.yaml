@@ -31,12 +31,23 @@ jobs:
     steps:
       - name: Install ArgoCD CLI
         run: |
-          curl -sSL -o /usr/local/bin/argocd \
+          # Define a writable path within the runner's home directory
+          export ARGO_PATH="$HOME/bin"
+          mkdir -p $ARGO_PATH
+          
+          # Download ArgoCD CLI to the new path
+          curl -sSL -o "$ARGO_PATH/argocd" \
             https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
-          chmod +x /usr/local/bin/argocd
+          
+          # Make the downloaded file executable
+          chmod +x "$ARGO_PATH/argocd"
+          
+          # Add the new path to the shell's PATH
+          echo "$ARGO_PATH" >> $GITHUB_PATH
 
       - name: ArgoCD CLI Login
         run: |
+          # This step will now find 'argocd' because the PATH was updated
           argocd login argocd-server \
             --username ${{ secrets.SPEEDTOOLS_ARGOCD_USERNAME}} \
             --password ${{ secrets.SPEEDTOOLS_ARGOCD_PASSWORD }} \
