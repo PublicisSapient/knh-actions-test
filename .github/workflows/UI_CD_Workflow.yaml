@@ -47,11 +47,11 @@ jobs:
 
       - name: ArgoCD CLI Login
         run: |
-          # This step will now find 'argocd' because the PATH was updated
           argocd login argocd-server \
             --username ${{ secrets.SPEEDTOOLS_ARGOCD_USERNAME}} \
             --password ${{ secrets.SPEEDTOOLS_ARGOCD_PASSWORD }} \
             --plaintext
+          argocd app list
   # ✅ UI Build & Testing
   # build_deploy:
   #   runs-on: ubuntu-latest-s
